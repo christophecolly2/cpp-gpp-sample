@@ -28,6 +28,11 @@ stages:
     steps:
     - script: make
       displayName: 'make'
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: '**/$(BuildConfiguration)/**/primes_in_range'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: '$(Build.ArtifactStagingDirectory)'
