@@ -6,6 +6,10 @@
 trigger:
 - master
 
+variables:
+  version_major: 0
+  version_minor: 1
+
 pool:
   vmImage: ubuntu-latest
 
@@ -21,5 +25,5 @@ stages:
   - job: ReleaseJob
     steps:
     - script: |
-        echo $(Build.DefinitionName)_$(Build.DefinitionVersion)_$(Build.RequestedFor)_$(Build.BuildId)
+        echo $(version_major).$(version_minor)$(Rev:.r)
 
