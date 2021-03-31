@@ -28,11 +28,15 @@ stages:
     steps:
     - script: make
       displayName: 'make'
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
 - stage: Release
   jobs:
   - job: ReleaseJob
-    variables:
-      release_name: $(version_major).$(version_minor).$(Build.BuildNumber)
     steps:
     - script: |
         echo $(release_name)
