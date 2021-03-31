@@ -36,7 +36,7 @@ stages:
     - task: CopyFiles@2
       inputs:
         sourceFolder: '$(Build.BinariesDirectory)'
-        contents: '**/primes_in_range'
+        contents: 'primes_in_range'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
       inputs:
