@@ -26,7 +26,10 @@ stages:
   jobs:
   - job: BuildJob
     steps:
-    - script: make
+    - script: |
+        make
+        pwd
+        ls
       displayName: 'make'
     - task: CopyFiles@2
       inputs:
