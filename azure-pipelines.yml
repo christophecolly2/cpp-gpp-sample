@@ -10,15 +10,15 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: build
+- stage: Build
   jobs:
-  - job: build-job
+  - job: BuildJob
     steps:
     - script: make
       displayName: 'make'
-- stage: release
+- stage: Release
   jobs:
-  - job: release-job
+  - job: ReleaseJob
     steps:
     - script: |
         echo test
