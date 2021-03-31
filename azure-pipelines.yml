@@ -28,6 +28,10 @@ stages:
     steps:
     - script: make
       displayName: 'make'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: drop
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: 'current'
