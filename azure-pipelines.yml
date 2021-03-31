@@ -3,6 +3,8 @@
 # Add steps that publish test results, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
 
+name: $(version_major).$(version_minor).$(Rev:r)
+
 trigger:
 - master
 
@@ -17,11 +19,9 @@ stages:
 - stage: Test
   jobs:
   - job: TestJob
-    variables:
-      release_name: $(version_major).$(version_minor).$(Rev:r)
     steps:
     - script: |
-        echo $(release_name)
+        echo $(Build.BuildNumber)
 - stage: Build
   jobs:
   - job: BuildJob
