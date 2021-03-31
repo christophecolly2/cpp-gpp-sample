@@ -9,7 +9,17 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: |
-    make
-  displayName: 'make'
+stages:
+- stage: build
+  jobs:
+  - job: build-job
+    steps:
+    - script: make
+      displayName: 'make'
+- stage: release
+  jobs:
+  - job: release-job
+    steps:
+    - script: |
+        echo $(Build.DefinitionName)_$(Build.DefinitionVersion)_$(Build.RequestedFor)_$(Build.BuildId)
+
