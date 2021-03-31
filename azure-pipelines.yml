@@ -35,7 +35,7 @@ stages:
       displayName: 'make'
     - task: CopyFiles@2
       inputs:
-        sourceFolder: '$(Build.BinariesDirectory)'
+        sourceFolder: '$(Build.SourcesDirectory)'
         contents: 'primes_in_range'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
