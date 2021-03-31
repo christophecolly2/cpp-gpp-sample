@@ -24,7 +24,7 @@ stages:
   jobs:
   - job: ReleaseJob
     variables:
-      release_name: $(version_major).$(version_minor)$(Rev:.r)
+      release_name: $(version_major).$(version_minor).$(Build.BuildNumber)
     steps:
     - script: |
         echo $(release_name)
