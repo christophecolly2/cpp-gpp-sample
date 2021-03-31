@@ -14,6 +14,14 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
+- stage: Test
+  jobs:
+  - job: TestJob
+    variables:
+      release_name: $(version_major).$(version_minor).$(Rev:r)
+    steps:
+    - script: |
+        echo $(release_name)
 - stage: Build
   jobs:
   - job: BuildJob
