@@ -23,7 +23,9 @@ stages:
 - stage: Release
   jobs:
   - job: ReleaseJob
+    variables:
+      release_name: $(version_major).$(version_minor)$(Rev:.r)
     steps:
     - script: |
-        echo $(version_major).$(version_minor)$(Rev:.r)
+        echo $(release_name)
 
