@@ -60,3 +60,7 @@ stages:
           steps:
           - script: |
               echo Hello world > C:\Temp\deploy.txt
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: C:\temp
+              artifactName: drop
