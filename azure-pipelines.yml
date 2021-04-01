@@ -25,22 +25,7 @@ stages:
         pwd
         ls
       displayName: 'make'
-
-- stage: Publish
-  jobs:
-  - job: PublishJob
-    steps:
-    - script: |
-        echo $(Build.SourcesDirectory)
-        pwd
-        ls
-    - task: CopyFiles@2
-      inputs:
-        sourceFolder: '$(Build.SourcesDirectory)'
-        contents: 'primes_in_range'
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
-    # Publish build as pipeline artifact that will be used for deployment
-    - publish: $(Build.ArtifactStagingDirectory)
+    - publish: $(Build.SourceDirectory)/primes_in_range
       artifact: drop
 - stage: Deploy
   jobs:
