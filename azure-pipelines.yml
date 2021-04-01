@@ -38,16 +38,8 @@ stages:
         sourceFolder: '$(Build.SourcesDirectory)'
         contents: 'primes_in_range'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Build.ArtifactStagingDirectory)'
-        artifactName: drop
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
+    - publish: $(Build.ArtifactStagingDirectory)
+      artifact: drop
 - stage: Deploy
   jobs:
   - deployment: DeployJob
@@ -60,9 +52,8 @@ stages:
           steps:
           - script: |
               echo Hello world > C:\Temp\deploy.txt
-          - task: DownloadBuildArtifacts@0
+          - task: DownloadPipelineArtifact@2
             inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'drop'
-              downloadPath: C:\temp
+              source: current
+              artifact: drop
+              path: C:\temp
