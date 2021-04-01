@@ -1,0 +1,51 @@
+# C/C++ with GCC
+# Build your C/C++ project with GCC using make.
+# Add steps that publish test results, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
+
+name: $(version_major).$(version_minor).$(Rev:r)
+
+trigger:
+- master
+
+variables:
+  version_major: 0
+  version_minor: 1
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - script: |
+        make
+        pwd
+        ls
+      displayName: 'make'
+    # Publish executable file as artifact to be used for deployment (it's also possible to publish a folder)
+    - publish: primes_in_range
+      artifact: drop
+- stage: Deploy
+  jobs:
+  # Deploy build on specific environment and server
+  # Prerequisite: create environment in Azure DevOps, install agent on the server(s)
+  - deployment: DeployJob
+    environment:
+      name: Dev
+      # Server name
+      resourceName: DEV1
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+              echo Hello world > C:\Temp\deploy.txt
+          # Get build files from the pipeline artifact named 'drop' and download them on the C:\Temp folder of the server
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: current
+              artifact: drop
+              path: C:\temp
