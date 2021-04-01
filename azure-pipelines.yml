@@ -30,6 +30,10 @@ stages:
   jobs:
   - job: PublishJob
     steps:
+    - script: |
+        echo $(Build.SourcesDirectory)
+        pwd
+        ls
     - task: CopyFiles@2
       inputs:
         sourceFolder: '$(Build.SourcesDirectory)'
