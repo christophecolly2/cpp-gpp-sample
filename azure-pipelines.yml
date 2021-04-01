@@ -16,14 +16,6 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: Test
-  jobs:
-  - job: TestJob
-    steps:
-    - script: |
-        echo $(Build.BuildNumber)
-        echo $(Build.SourcesDirectory)
-        echo $(Build.BinariesDirectory)
 - stage: Build
   jobs:
   - job: BuildJob
@@ -33,18 +25,27 @@ stages:
         pwd
         ls
       displayName: 'make'
+
+- stage: Publish
+  jobs:
+  - job: PublishJob
+    steps:
     - task: CopyFiles@2
       inputs:
         sourceFolder: '$(Build.SourcesDirectory)'
         contents: 'primes_in_range'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
+    # Publish build as pipeline artifact that will be used for deployment
     - publish: $(Build.ArtifactStagingDirectory)
       artifact: drop
 - stage: Deploy
   jobs:
+  # Deploy build on specific environment and server
+  # Prerequisite: create environment in Azure DevOps, install agent on the server(s)
   - deployment: DeployJob
     environment:
       name: Dev
+      # Server name
       resourceName: DEV1
     strategy:
       runOnce:
@@ -52,6 +53,7 @@ stages:
           steps:
           - script: |
               echo Hello world > C:\Temp\deploy.txt
+          # Get build files from the pipeline artifact named 'drop' and download them on the C:\Temp folder of the server
           - task: DownloadPipelineArtifact@2
             inputs:
               source: current
