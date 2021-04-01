@@ -25,6 +25,7 @@ stages:
         pwd
         ls
       displayName: 'make'
+    # Publish executable file as artifact to be used for deployment (it's also possible to publish a folder)
     - publish: primes_in_range
       artifact: drop
 - stage: Deploy
